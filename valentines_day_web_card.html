@@ -77,6 +77,8 @@ img {
     right: 15px;
     padding: 8px 12px;
     font-size: 16px;
+    border: 2px solid #00ff9c;
+    background: black;
 }
 </style>
 </head>
@@ -88,6 +90,7 @@ img {
 <div id="terminal">
     <p id="message">Press Start Love.exe</p>
     <div id="progressContainer">
+        <p id="progressBarPct"></p>
         <div id="progressBar"></div>
     </div>
     <img id="photo" src="" style="display:none">
@@ -129,10 +132,11 @@ function runBoot(){
         document.getElementById("message").innerHTML += bootLines[bootIndex] + "<br>";
         bootIndex++;
         progress += 20;
+        document.getElementById("progressBarPct").textContent = String(progress) + "%";
         document.getElementById("progressBar").style.width = progress + "%";
         setTimeout(runBoot, 1200);
     } else {
-        document.getElementById("message").innerHTML = "System Ready.\n100%\nClick Next.";
+        document.getElementById("message").innerHTML = "System Ready. Click Next.";
         document.getElementById("nextBtn").style.display="inline-block";
     }
 }
