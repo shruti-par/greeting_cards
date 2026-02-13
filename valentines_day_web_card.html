@@ -47,6 +47,8 @@ img {
 
 <h2>Love.exe</h2>
 
+<audio id="bgm" src="music.mp3" loop></audio>
+
 <div id="terminal">
 <p id="message">Press Start Love.exe</p>
 <img id="photo" src="" style="display:none">
@@ -80,6 +82,7 @@ function startBoot(){
     document.getElementById("startBtn").style.display="none";
     const term = document.getElementById("message");
     term.innerHTML="";
+    document.getElementById("bgm").play();
     runBoot();
 }
 
@@ -87,17 +90,28 @@ function runBoot(){
     if(bootIndex < bootLines.length){
         document.getElementById("message").innerHTML += bootLines[bootIndex] + "<br>";
         bootIndex++;
-        setTimeout(runBoot, 800);
+        setTimeout(runBoot, 1000);
     } else {
         document.getElementById("nextBtn").style.display="inline-block";
         document.getElementById("message").innerHTML = "System Ready. Click Next.";
     }
 }
 
+function typeWriter(text, i, callback){
+    const el = document.getElementById("message");
+    if(i < text.length){
+        el.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, i + 1, callback), 35);
+    } else if(callback){
+        callback();
+    }
+}
+
 function nextStory(){
     if(storyIndex < story.length){
         const item = story[storyIndex];
-        document.getElementById("message").innerHTML = item.text;
+        document.getElementById("message").innerHTML = "";
+        typeWriter(item.text, 0);
         const img = document.getElementById("photo");
         img.src = item.img;
         img.style.display = "block";
@@ -106,6 +120,7 @@ function nextStory(){
     } else {
         document.getElementById("message").innerHTML = "Forever loading... ❤️";
         document.getElementById("nextBtn").style.display="none";
+        document.getElementById("photo").src = "none";
         document.getElementById("replayBtn").style.display="inline-block";
     }
 }
