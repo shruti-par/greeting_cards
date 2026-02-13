@@ -48,7 +48,7 @@ img {
 #progressContainer {
     width:100%;
     background:#003d2b;
-    margin-top:15px;
+    margin-top:5px;
     height:15px;
     display:none;
 }
@@ -68,22 +68,18 @@ img {
 </head>
 <body>
 
-<h2>Love.exe</h2>
-<br>
-
 <audio id="bgm" src="music.mp3" loop></audio>
 
 <div id="terminal">
-<p id="message">Press Start Love.exe</p>
-<div id="progressContainer">
-<div id="progressBar"></div>
+    <p id="message">Press Start Love.exe</p>
+    <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
+    <img id="photo" src="" style="display:none">
+    <button id="startBtn" onclick="startBoot()">Start Love.exe</button>
+    <button id="nextBtn" onclick="nextStory()" style="display:none">Next</button>
+    <button id="replayBtn" onclick="restartStory()">Replay Story</button>
 </div>
-<img id="photo" src="" style="display:none">
-</div>
-<br>
-<button id="startBtn" onclick="startBoot()">Start Love.exe</button>
-<button id="nextBtn" onclick="nextStory()" style="display:none">Next</button>
-<button id="replayBtn" onclick="restartStory()">Replay Story</button>
 
 <script>
 let storyIndex = 0;
@@ -136,6 +132,7 @@ function typeWriter(text, i){
 
 function nextStory(){
     if(storyIndex < story.length){
+        document.getElementById("progressContainer").style.display="none";
         const item = story[storyIndex];
         document.getElementById("message").innerHTML = "";
         typeWriter(item.text, 0);
