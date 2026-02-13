@@ -6,20 +6,27 @@
 <title>Love.exe</title>
 <style>
 body {
-    background:black;
-    color:#00ff9c;
+    background: black;
+    color: #00ff9c;
     font-family: "Courier New", monospace;
-    text-align:center;
-    padding:40px;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #terminal {
-    border:2px solid #00ff9c;
-    padding:30px;
-    min-height:300px;
-    margin:auto;
-    max-width:700px;
-    box-shadow:0 0 15px #00ff9c;
+    border: 2px solid #00ff9c;
+    padding: 20px;
+    width: 90%;
+    max-width: 700px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 0 15px #00ff9c;
 }
 
 button {
@@ -32,9 +39,25 @@ button {
 }
 
 img {
-    margin-top:20px;
-    max-width:100%;
-    border-radius:10px;
+    max-height: 45vh;
+    width: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+#progressContainer {
+    width:100%;
+    background:#003d2b;
+    margin-top:15px;
+    height:15px;
+    display:none;
+}
+
+#progressBar {
+    width:0%;
+    height:100%;
+    background:#00ff9c;
+    transition: width 0.4s ease;
 }
 
 .fade { animation: fade 0.8s ease-in; }
@@ -51,6 +74,9 @@ img {
 
 <div id="terminal">
 <p id="message">Press Start Love.exe</p>
+<div id="progressContainer">
+<div id="progressBar"></div>
+</div>
 <img id="photo" src="" style="display:none">
 </div>
 
@@ -60,6 +86,8 @@ img {
 
 <script>
 let storyIndex = 0;
+let bootIndex = 0;
+let progress = 0;
 
 const bootLines = [
 "Initializing Love Kernel...",
@@ -76,13 +104,11 @@ const story = [
 { text: "Happy Valentine's Day ❤️", img: "photo4.jpg" }
 ];
 
-let bootIndex = 0;
-
 function startBoot(){
     document.getElementById("startBtn").style.display="none";
-    const term = document.getElementById("message");
-    term.innerHTML="";
+    document.getElementById("message").innerHTML="";
     document.getElementById("bgm").play();
+    document.getElementById("progressContainer").style.display="block";
     runBoot();
 }
 
@@ -90,20 +116,20 @@ function runBoot(){
     if(bootIndex < bootLines.length){
         document.getElementById("message").innerHTML += bootLines[bootIndex] + "<br>";
         bootIndex++;
-        setTimeout(runBoot, 1000);
+        progress += 20;
+        document.getElementById("progressBar").style.width = progress + "%";
+        setTimeout(runBoot, 1200);
     } else {
-        document.getElementById("nextBtn").style.display="inline-block";
         document.getElementById("message").innerHTML = "System Ready. Click Next.";
+        document.getElementById("nextBtn").style.display="inline-block";
     }
 }
 
-function typeWriter(text, i, callback){
+function typeWriter(text, i){
     const el = document.getElementById("message");
     if(i < text.length){
         el.innerHTML += text.charAt(i);
-        setTimeout(() => typeWriter(text, i + 1, callback), 35);
-    } else if(callback){
-        callback();
+        setTimeout(() => typeWriter(text, i + 1), 35);
     }
 }
 
@@ -120,7 +146,7 @@ function nextStory(){
     } else {
         document.getElementById("message").innerHTML = "Forever loading... ❤️";
         document.getElementById("nextBtn").style.display="none";
-        document.getElementById("photo").src = "none";
+        document.getElementById("photo").src = "photo5.jpg";
         document.getElementById("replayBtn").style.display="inline-block";
     }
 }
@@ -128,7 +154,11 @@ function nextStory(){
 function restartStory(){
     storyIndex = 0;
     bootIndex = 0;
+    progress = 0;
+    document.getElementById("progressBar").style.width = "0%";
+    document.getElementById("progressContainer").style.display="none";
     document.getElementById("replayBtn").style.display="none";
+    document.getElementById("nextBtn").style.display="none";
     document.getElementById("startBtn").style.display="inline-block";
     document.getElementById("message").innerHTML = "Press Start Love.exe";
     document.getElementById("photo").style.display="none";
