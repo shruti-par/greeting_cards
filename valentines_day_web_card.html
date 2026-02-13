@@ -90,7 +90,7 @@ img {
 <div id="terminal">
     <p id="message">Press Start Love.exe</p>
     <div id="progressContainer">
-        <p id="progressBarPct"></p>
+        <p id="progressBarPct">0%</p>
         <div id="progressBar"></div>
     </div>
     <img id="photo" src="" style="display:none">
@@ -138,6 +138,8 @@ function runBoot(){
     } else {
         document.getElementById("message").innerHTML = "System Ready. Click Next.";
         document.getElementById("nextBtn").style.display="inline-block";
+        document.getElementById("progressBarPct").textContent = "";
+        document.getElementById("progressBar").style.width = 0 + "%";
     }
 }
 
