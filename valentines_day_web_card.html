@@ -80,6 +80,17 @@ img {
     border: 2px solid #00ff9c;
     background: black;
 }
+.cursor {
+    display: inline-block;
+    width: 10px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
 </style>
 </head>
 <body>
@@ -129,7 +140,7 @@ function startBoot(){
 
 function runBoot(){
     if(bootIndex < bootLines.length){
-        document.getElementById("message").innerHTML += bootLines[bootIndex] + "<br>";
+        document.getElementById("message").innerHTML += bootLines[bootIndex] + " █<br>";
         bootIndex++;
         progress += 20;
         document.getElementById("progressBarPct").textContent = String(progress) + "%";
@@ -144,9 +155,16 @@ function runBoot(){
 
 function typeWriter(text, i){
     const el = document.getElementById("message");
+
+    if(i === 0){
+        el.innerHTML = "";
+    }
+
     if(i < text.length){
-        el.innerHTML += text.charAt(i);
+        el.innerHTML = text.substring(0, i + 1) + '<span class="cursor">█</span>';
         setTimeout(() => typeWriter(text, i + 1), 35);
+    } else {
+        el.innerHTML = text + '<span class="cursor">█</span>';
     }
 }
 
