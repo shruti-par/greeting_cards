@@ -71,11 +71,19 @@ img {
 #replayBtn { 
     display:none; 
 }
+#audioToggle {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    font-size: 16px;
+}
 </style>
 </head>
 <body>
 
 <audio id="bgm" src="music.mp3" loop></audio>
+<button id="audioToggle" onclick="toggleAudio()">🔊</button>
 
 <div id="terminal">
     <p id="message">Press Start Love.exe</p>
@@ -156,6 +164,18 @@ function nextStory(){
     }
 }
 
+function toggleAudio(){
+    const music = document.getElementById("bgm");
+    const btn = document.getElementById("audioToggle");
+    if(music.paused){
+        music.play();
+        btn.textContent = "🔊";
+    } else {
+        music.pause();
+        btn.textContent = "🔇";
+    }
+}
+    
 function restartStory(){
     storyIndex = 0;
     bootIndex = 0;
